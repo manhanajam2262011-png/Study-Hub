@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Study Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dark-mode">
+    <header>
+        <h1 id="user-name">Welcome Manha Najam (C@0xx_22)!</h1>
+        <p>Welcome to your personal study hub!</p>
+        <button id="welcome-btn">Say Hello</button>
+        <div id="quote-of-day" class="quote"></div>
+        <nav>
+            <ul>
+                <li><a href="#math">Math</a></li>
+                <li><a href="#physics">Physics</a></li>
+                <li><a href="#chemistry">Chemistry</a></li>
+                <li><a href="#ict">ICT</a></li>
+                <li><a href="#games">Mini-Games</a></li>
+                <li><a href="#todo-timer">To-Do & Timer</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="math">
+            <h2>Math <span class="subject-icon">🧮</span></h2>
+            <div class="subject-graphics"><img src="https://img.icons8.com/color/48/000000/calculator.png" alt="Math">
+            </div>
+            <input type="file" class="file-upload" id="math-upload" multiple>
+            <button class="edit-notes" data-section="math">Edit Notes</button>
+            <div class="resources"></div>
+            <div class="file-viewer" id="math-viewer"></div>
+        </section>
+        <section id="physics">
+            <h2>Physics <span class="subject-icon">🧲</span></h2>
+            <div class="subject-graphics"><img src="https://img.icons8.com/color/48/000000/physics.png" alt="Physics">
+            </div>
+            <input type="file" class="file-upload" id="physics-upload" multiple>
+            <button class="edit-notes" data-section="physics">Edit Notes</button>
+            <div class="resources"></div>
+            <div class="file-viewer" id="physics-viewer"></div>
+        </section>
+        <section id="chemistry">
+            <h2>Chemistry <span class="subject-icon">⚗️</span></h2>
+            <div class="subject-graphics"><img src="https://img.icons8.com/color/48/000000/test-tube.png"
+                    alt="Chemistry"></div>
+            <input type="file" class="file-upload" id="chemistry-upload" multiple>
+            <button class="edit-notes" data-section="chemistry">Edit Notes</button>
+            <div class="resources"></div>
+            <div class="file-viewer" id="chemistry-viewer"></div>
+        </section>
+        <section id="ict">
+            <h2>ICT <span class="subject-icon">💻</span></h2>
+            <div class="subject-graphics"><img src="https://img.icons8.com/color/48/000000/computer.png" alt="ICT">
+            </div>
+            <input type="file" class="file-upload" id="ict-upload" multiple>
+            <button class="edit-notes" data-section="ict">Edit Notes</button>
+            <div class="resources"></div>
+            <div class="file-viewer" id="ict-viewer"></div>
+        </section>
+        <section id="editing-section">
+            <h2>Edit Notes & Resources</h2>
+            <textarea id="edit-area" rows="6" placeholder="Edit your notes here..."></textarea>
+            <button id="save-edit">Save</button>
+            <div id="edit-status"></div>
+        </section>
+        <!-- Onboarding Modal -->
+        <div id="onboarding-modal" class="modal">
+            <div class="modal-content">
+                <h2>Welcome to Study Hub!</h2>
+                <label for="setup-name">Enter your name:</label>
+                <input type="text" id="setup-name" placeholder="Your Name">
+                <label for="setup-theme">Choose a theme:</label>
+                <select id="setup-theme">
+                    <option value="default">Default</option>
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                </select>
+                <button id="finish-setup">Get Started</button>
+            </div>
+        </div>
+        <div id="ai-suggestions">
+            <button class="ai-example">What is Ohm's Law?</button>
+            <button class="ai-example">Explain photosynthesis</button>
+            <button class="ai-example">How to solve quadratic equations?</button>
+        </div>
+        </section>
+        <section id="games">
+            <h2>Mini-Games</h2>
+            <div id="flashcards"></div>
+            <div id="mcq"></div>
+        </section>
+        <section id="todo-timer">
+            <h2>To-Do List & Timer</h2>
+            <div id="todo-list"></div>
+            <div id="timer"></div>
+            <!-- Timer controls and sound are handled in script.js -->
+        </section>
+    </main>
+    <footer>
+        <button id="theme-toggle">Toggle Dark Mode</button>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
