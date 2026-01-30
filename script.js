@@ -42,8 +42,37 @@ window.onload = function () {
     const upload = document.getElementById(subject + '-upload');
     const resDiv = document.querySelector(`#${subject} .resources`);
     const viewer = document.getElementById(subject + '-viewer');
+    // Restore saved files (names and data URLs)
+    function restoreFiles() {
+        resDiv.innerHTML = '';
+        viewer.innerHTML = '';
+        const saved = JSON.parse(localStorage.getItem(subject + '-files') || '[]');
+        saved.forEach(fileObj => {
+            const btn = document.createElement('button');
+            btn.className = 'resource-item';
+            btn.textContent = fileObj.name;
+            btn.onclick = function (ev) {
+                ev.preventDefault();
+                let embed = '';
+                if (fileObj.type === 'application/pdf') {
+                    embed = `<iframe src="${fileObj.data}" width="100%" height="500px" style="background:#222;"></iframe>`;
+                } else if (fileObj.type.startsWith('image/')) {
+                    embed = `<img src="${fileObj.data}" style="max-width:100%;max-height:500px;background:#222;" />`;
+                } else if (fileObj.type.startsWith('text/')) {
+                    embed = `<pre style='max-height:500px;overflow:auto;background:#222;color:#f5f6fa;'>${fileObj.text || ''}</pre>`;
+                } else {
+                    embed = `<p style='color:#f5f6fa;'>Preview not supported for this file type.</p>`;
+                }
+                viewer.innerHTML = embed;
+            };
+            resDiv.appendChild(btn);
+            resDiv.appendChild(document.createElement('br'));
+        });
+    }
+    restoreFiles();
     if (upload && resDiv && viewer) {
         upload.addEventListener('change', function (e) {
+            let saved = JSON.parse(localStorage.getItem(subject + '-files') || '[]');
             for (const file of e.target.files) {
                 const btn = document.createElement('button');
                 btn.className = 'resource-item';
@@ -70,30 +99,44 @@ window.onload = function () {
                 };
                 resDiv.appendChild(btn);
                 resDiv.appendChild(document.createElement('br'));
+                // Save file to localStorage
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    let fileObj = { name: file.name, type: file.type, data: e.target.result };
+                    if (file.type.startsWith('text/')) {
+                        fileObj.text = e.target.result;
+                    }
+                    saved.push(fileObj);
+                    localStorage.setItem(subject + '-files', JSON.stringify(saved));
+                };
+                if (file.type.startsWith('text/')) {
+                    reader.readAsText(file);
+                } else {
+                    reader.readAsDataURL(file);
+                }
             }
         });
     }
 });
 // Editing Section Logic
+// Editing Section Logic with localStorage
 let currentEditSection = null;
 document.querySelectorAll('.edit-notes').forEach(btn => {
     btn.onclick = function () {
         currentEditSection = btn.getAttribute('data-section');
         const area = document.getElementById('edit-area');
-        const resDiv = document.querySelector(`#${currentEditSection} .resources`);
-        area.value = resDiv ? resDiv.textContent : '';
+        // Load saved notes for this section
+        area.value = localStorage.getItem(currentEditSection + '-notes') || '';
         document.getElementById('editing-section').scrollIntoView({ behavior: 'smooth' });
     };
 });
 document.getElementById('save-edit').onclick = function () {
     if (!currentEditSection) return;
     const area = document.getElementById('edit-area');
-    const resDiv = document.querySelector(`#${currentEditSection} .resources`);
-    if (resDiv) {
-        resDiv.textContent = area.value;
-        document.getElementById('edit-status').textContent = 'Notes saved!';
-        setTimeout(() => document.getElementById('edit-status').textContent = '', 2000);
-    }
+    // Save notes to localStorage
+    localStorage.setItem(currentEditSection + '-notes', area.value);
+    document.getElementById('edit-status').textContent = 'Notes saved!';
+    setTimeout(() => document.getElementById('edit-status').textContent = '', 2000);
 };
 // script.js - Study Hub
 
